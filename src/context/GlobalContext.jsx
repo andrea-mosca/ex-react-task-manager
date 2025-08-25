@@ -7,11 +7,17 @@ const TaskContext = createContext();
 function TaskProvider({ children }) {
   const [tasks, setTasks] = useState([]);
 
-  const fetchTasks = () => {
-    axios.get(`${apiUrl}/tasks`).then((res) => setTasks(res));
-  };
-
-  useEffect(fetchTasks, []);
+  useEffect(() => {
+    const fetchTasks = async () => {
+      try {
+        const response = await axios.get(`${apiUrl}/tasks`);
+        setTasks(response.data);
+      } catch (error) {
+        console.error("Errore nella richiesta:", error);
+      }
+    };
+    fetchTasks();
+  }, []);
 
   return (
     <TaskContext.Provider value={{ tasks, setTasks }}>
