@@ -1,15 +1,15 @@
-import { useTasks } from "../context/GlobalContext";
+import { useTaskContext } from "../context/GlobalContext";
 import TaskRow from "./component/TaskRow";
 
 export default function TaskList() {
-  const { tasks } = useTasks();
+  const { tasks } = useTaskContext();
 
   return (
     <div>
       <table className="table">
         <thead>
           <tr>
-            <th scope="col">#</th>
+            <th scope="col"></th>
             <th scope="col">Nome</th>
             <th scope="col">Stato</th>
             <th scope="col">Data di Creazione</th>

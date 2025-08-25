@@ -1,34 +1,22 @@
-import axios from "axios";
-import { createContext, useState, useEffect, useContext } from "react";
+import { createContext, useContext } from "react";
+import useTasks from "../hooks/UseTasks";
 
-const apiUrl = import.meta.env.VITE_API_URL;
 const TaskContext = createContext();
 
 function TaskProvider({ children }) {
-  const [tasks, setTasks] = useState([]);
-
-  useEffect(() => {
-    const fetchTasks = async () => {
-      try {
-        const response = await axios.get(`${apiUrl}/tasks`);
-        setTasks(response.data);
-      } catch (error) {
-        console.error("Errore nella richiesta:", error);
-      }
-    };
-    fetchTasks();
-  }, []);
+  const taskData = useTasks();
 
   return (
-    <TaskContext.Provider value={{ tasks, setTasks }}>
-      {children}
-    </TaskContext.Provider>
+    <TaskContext.Provider value={taskData}>{children}</TaskContext.Provider>
   );
 }
 
-function useTasks() {
+function useTaskContext() {
   const context = useContext(TaskContext);
+  if (!context) {
+    throw new Error("useTaskContext deve essere usato dentro TaskProvider");
+  }
   return context;
 }
 
-export { TaskProvider, useTasks };
+export { TaskProvider, useTaskContext };
