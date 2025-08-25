@@ -1,3 +1,3 @@
 export default function AddTask() {
-  return <div>ciao</div>;
+  return <div>Add Task</div>;
 }
