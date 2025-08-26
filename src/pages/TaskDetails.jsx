@@ -1,18 +1,30 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import useTasks from "../hooks/UseTasks";
+import { useTaskContext } from "../context/GlobalContext";
 
 export default function TaskDetails() {
   const { id } = useParams();
-  const { tasks } = useTasks();
+  const navigate = useNavigate();
+
+  const { tasks, removeTask } = useTaskContext();
   const task = tasks.find((t) => String(t.id) === id);
 
   if (!task) {
     // Mentre le task sono vuote o non è stata trovata la task
     return (
-      <p className="container mt-3">Caricamento task o task non trovata...</p>
+      <h1 className="container mt-3">Caricamento task o task non trovata...</h1>
     );
   }
-
+  const handleButtonClick = async () => {
+    try {
+      await removeTask(task.id);
+      alert("task eliminata con successo");
+      navigate("/");
+    } catch (err) {
+      console.log(err);
+      alert(err.message);
+    }
+  };
   return (
     <div className="container">
       <div className="card mt-5">
@@ -31,10 +43,7 @@ export default function TaskDetails() {
             <strong>created at:</strong>{" "}
             {new Date(task.createdAt).toLocaleDateString()}
           </div>
-          <button
-            onClick={() => console.log("task eliminata")}
-            className="btn btn-danger"
-          >
+          <button onClick={handleButtonClick} className="btn btn-danger">
             Elimina Task
           </button>
         </div>
