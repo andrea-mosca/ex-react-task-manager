@@ -7,7 +7,9 @@ function TaskProvider({ children }) {
   const taskData = useTasks();
 
   return (
-    <TaskContext.Provider value={taskData}>{children}</TaskContext.Provider>
+    <TaskContext.Provider value={{ ...taskData }}>
+      {children}
+    </TaskContext.Provider>
   );
 }
 

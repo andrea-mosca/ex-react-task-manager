@@ -10,8 +10,9 @@ export default function useTasks() {
   useEffect(() => {
     const fetchTasks = async () => {
       try {
-        const response = await axios.get(`${apiUrl}/tasks`);
-        setTasks(response.data);
+        const response = await fetch(`${apiUrl}/tasks`)
+          .then((res) => res.json())
+          .then((data) => setTasks(data));
       } catch (error) {
         console.error("Errore nella richiesta:", error);
       }
@@ -19,8 +20,16 @@ export default function useTasks() {
     fetchTasks();
   }, []);
 
-  // Funzioni vuote per ora
-  const addTask = () => {};
+  const addTask = async (newTask) => {
+    const response = await fetch(`${apiUrl}/tasks`, {
+      method: "POST",
+      headers: { "content-Type": "application/json" },
+      body: JSON.stringify(newTask),
+    });
+    const { success, message, task } = await response.json();
+    if (!success) throw new Error(message);
+    setTasks((prev) => [...prev, task]);
+  };
   const removeTask = () => {};
   const updateTask = () => {};
 

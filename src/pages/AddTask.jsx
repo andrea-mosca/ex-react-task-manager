@@ -1,17 +1,29 @@
 import { useState, useRef, useMemo } from "react";
+import { useTaskContext } from "../context/GlobalContext";
+
 const symbols = `!@#$%^&\*()-\_=+[]{}|;:'\\",.<>?/~`;
+
 export default function AddTask() {
+  const { addTask } = useTaskContext();
+
   const [title, setTitle] = useState("");
   const descriptionRef = useRef("");
   const statusRef = useRef("To Do");
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
-    console.log(`
-      "title":${title},
-      "descrizione":${descriptionRef.current.value},
-      status:${statusRef.current.value}
-   `);
+    const newTask = {
+      title: title.trim(),
+      description: descriptionRef.current.value,
+      status: statusRef.current.value,
+    };
+    try {
+      await addTask(newTask);
+      alert("Task creata con successo");
+    } catch (err) {
+      alert(err.message);
+    }
+
     setTitle("");
     descriptionRef.current.value = "";
     statusRef.current.value = "To Do";
@@ -20,7 +32,6 @@ export default function AddTask() {
   const isTitleValid = useMemo(() => {
     return title.split(``).some((char) => symbols.includes(char));
   }, [title]);
-  console.log(isTitleValid);
 
   return (
     <div className="container mt-5">
@@ -66,14 +77,18 @@ export default function AddTask() {
               id="status"
               className="form-select"
               ref={statusRef}
-              defaultValue={"To Do"}
+              defaultValue="To do"
             >
-              <option value="To Do">To Do</option>
+              <option value="To do">To do</option>
               <option value="Doing">Doing</option>
               <option value="Done">Done</option>
             </select>
           </div>
-          <button type="submit" className="btn btn-primary">
+          <button
+            type="submit"
+            className="btn btn-primary"
+            disabled={isTitleValid}
+          >
             Submit
           </button>
         </form>
