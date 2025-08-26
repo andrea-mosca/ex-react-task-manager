@@ -8,7 +8,7 @@ export default function Navbar() {
     >
       <div className="d-flex gap-5 px-5 py-2">
         <NavLink to="/">Tasks List</NavLink>
-        <NavLink to="/add-task">Add Task</NavLink>
+        <NavLink to="/add">Add Task</NavLink>
       </div>
     </nav>
   );

@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 // React.memo evita il re-render se le props non cambiano
 const TaskRow = React.memo(({ task }) => {
@@ -13,7 +14,9 @@ const TaskRow = React.memo(({ task }) => {
   return (
     <tr>
       <th scope="row">{task.id}</th>
-      <td>{task.title}</td>
+      <td>
+        <Link to={`/task/${task.id}`}>{task.title}</Link>
+      </td>
       <td className={cellColor}>{task.status}</td>
       <td>{new Date(task.createdAt).toLocaleDateString()}</td>
     </tr>

@@ -1,5 +1,5 @@
 import { useTaskContext } from "../context/GlobalContext";
-import TaskRow from "./component/TaskRow";
+import TaskRow from "../component/TaskRow";
 
 export default function TaskList() {
   const { tasks } = useTaskContext();

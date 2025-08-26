@@ -3,6 +3,7 @@ import DefaultLayout from "./layouts/DefaultLayout";
 import AddTask from "./pages/AddTask";
 import TaskList from "./pages/TaskList";
 import { TaskProvider } from "./context/GlobalContext";
+import TaskDetails from "./pages/TaskDetails";
 
 export default function App() {
   return (
@@ -11,7 +12,8 @@ export default function App() {
         <Routes>
           <Route element={<DefaultLayout />}>
             <Route index element={<TaskList />} />
-            <Route path="add-task" element={<AddTask />} />
+            <Route path="add" element={<AddTask />} />
+            <Route path="/task/:id" element={<TaskDetails />} />
           </Route>
         </Routes>
       </TaskProvider>
