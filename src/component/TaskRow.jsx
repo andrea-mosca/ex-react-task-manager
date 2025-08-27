@@ -13,7 +13,6 @@ const TaskRow = React.memo(({ task }) => {
   }
   return (
     <tr>
-      <th scope="row">{task.id}</th>
       <td>
         <Link to={`/task/${task.id}`}>{task.title}</Link>
       </td>
