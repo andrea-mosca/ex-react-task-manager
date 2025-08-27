@@ -1,6 +1,13 @@
 import { createPortal } from "react-dom";
 
-export default function Modal({ title, content, show, onClose, onConfirm }) {
+export default function Modal({
+  title,
+  content,
+  show,
+  onClose,
+  onConfirm,
+  confirmText = "Conferma",
+}) {
   if (!show) return null;
 
   return createPortal(
@@ -37,7 +44,7 @@ export default function Modal({ title, content, show, onClose, onConfirm }) {
                 className="btn btn-danger"
                 onClick={onConfirm}
               >
-                Conferma
+                {confirmText}
               </button>
             </div>
           </div>
