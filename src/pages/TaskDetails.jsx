@@ -1,6 +1,8 @@
 import { useParams, useNavigate } from "react-router-dom";
 import useTasks from "../hooks/UseTasks";
 import { useTaskContext } from "../context/GlobalContext";
+import Modal from "../component/Modal";
+import { useState } from "react";
 
 export default function TaskDetails() {
   const { id } = useParams();
@@ -9,6 +11,7 @@ export default function TaskDetails() {
   const { tasks, removeTask } = useTaskContext();
   const task = tasks.find((t) => String(t.id) === id);
 
+  const [showModal, setShowModal] = useState(false);
   if (!task) {
     // Mentre le task sono vuote o non è stata trovata la task
     return (
@@ -43,9 +46,20 @@ export default function TaskDetails() {
             <strong>created at:</strong>{" "}
             {new Date(task.createdAt).toLocaleDateString()}
           </div>
-          <button onClick={handleButtonClick} className="btn btn-danger">
+          <button
+            type="button"
+            onClick={() => setShowModal(true)}
+            className="btn btn-danger"
+          >
             Elimina Task
           </button>
+          <Modal
+            title={task.title}
+            content={"Sei sicuro di voler eliminare la Task?"}
+            onConfirm={handleButtonClick}
+            onClose={() => setShowModal(false)}
+            show={showModal}
+          />
         </div>
       </div>
     </div>
