@@ -1,5 +1,4 @@
 import { useParams, useNavigate } from "react-router-dom";
-import useTasks from "../hooks/UseTasks";
 import { useTaskContext } from "../context/GlobalContext";
 import Modal from "../component/Modal";
 import { useState } from "react";
@@ -15,7 +14,6 @@ export default function TaskDetails() {
   const [showModal, setShowModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   if (!task) {
-    // Mentre le task sono vuote o non è stata trovata la task
     return (
       <h1 className="container mt-3">Caricamento task o task non trovata...</h1>
     );

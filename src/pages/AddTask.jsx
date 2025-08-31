@@ -89,7 +89,7 @@ export default function AddTask() {
             className="btn btn-primary"
             disabled={isTitleValid}
           >
-            Submit
+            Aggiungi Task
           </button>
         </form>
       </div>

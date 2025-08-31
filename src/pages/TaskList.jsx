@@ -34,17 +34,18 @@ export default function TaskList() {
   };
 
   const sortedTasks = useMemo(() => {
-    const orderMap = { "To do": 1, Doing: 2, Done: 3 };
-
     return [...tasks]
       .filter((t) => t.title.toLowerCase().includes(searchQuery.toLowerCase()))
       .sort((a, b) => {
-        let comparison = 0;
+        let comparison;
 
         if (sortBy === "title") {
           comparison = a.title.localeCompare(b.title);
         } else if (sortBy === "status") {
-          comparison = orderMap[a.status] - orderMap[b.status];
+          const statusOption = ["To do", "Doing", "Done"];
+          const indexA = statusOption.indexOf(a.status);
+          const indexB = statusOption.indexOf(b.status);
+          comparison = indexA - indexB;
         } else if (sortBy === "createdAt") {
           comparison =
             new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
@@ -61,9 +62,10 @@ export default function TaskList() {
         <input
           onChange={(e) => debouncedSearchSetQuery(e.target.value)}
           placeholder="Cerca una Task..."
+          className="mt-4"
         ></input>
       </div>
-      <div className="mt-5">
+      <div className="mt-1">
         <table className="table border border-black p-2 mb-2 border-opacity-50">
           <thead>
             <tr>
@@ -91,9 +93,13 @@ export default function TaskList() {
             </tr>
           </thead>
           <tbody className="table-group-divider">
-            {sortedTasks.map((t) => (
-              <TaskRow key={t.id} task={t} />
-            ))}
+            {sortedTasks.length === 0 ? (
+              <tr>
+                <td>nessuna Task trovata</td>
+              </tr>
+            ) : (
+              sortedTasks.map((t) => <TaskRow key={t.id} task={t} />)
+            )}
           </tbody>
         </table>
       </div>
